@@ -11,6 +11,14 @@ contract FundraiserFactory {
 
     uint numOfFundraisers;
 
+    // event to emitted whenever a new fund is created
+    event NewFundCreated(
+        uint256 fundIndex,
+        address creator,
+        uint256 goalAmount,
+        uint256 deadline
+    );
+
     function createFundraiser(uint256 goal, uint256 deadline) public {
         //require fund is not already made
         require(creatorToFundraiser[msg.sender] != address(0));
@@ -26,6 +34,9 @@ contract FundraiserFactory {
 
         //increment total number of fundraisers
         numOfFundraisers++;
+
+        //emit the event
+        emit NewFundCreated(numOfFundraisers, msg.sender, goal, deadline);
     }
 
     function allFundraisers() public view returns (address[] memory) {
